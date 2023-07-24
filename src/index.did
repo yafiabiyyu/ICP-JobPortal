@@ -1,0 +1,33 @@
+type JobPost = record {
+  id : text;
+  salary : text;
+  jobType : text;
+  name : text;
+  createdAt : nat64;
+  postStatus : bool;
+  description : text;
+  updatedAt : opt nat64;
+  company : text;
+  requirements : text;
+  candidate : opt vec text;
+  location : text;
+  postOwner : text;
+};
+type JobPostPayload = record {
+  salary : text;
+  jobType : text;
+  name : text;
+  description : text;
+  company : text;
+  requirements : text;
+  location : text;
+};
+type _AzleResult = variant { Ok : JobPost; Err : text };
+type _AzleResult_1 = variant { Ok : vec JobPost; Err : text };
+service : () -> {
+  closePost : (text) -> (_AzleResult);
+  createPost : (JobPostPayload) -> (_AzleResult);
+  getPostById : (text) -> (_AzleResult) query;
+  getPostList : () -> (_AzleResult_1) query;
+  updatePost : (text, JobPostPayload) -> (_AzleResult);
+}
