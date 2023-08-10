@@ -1,33 +1,130 @@
-type JobPost = record {
+type Company = record {
+  id : text;
+  admin : text;
+  name : text;
+  createdAt : nat64;
+  description : text;
+  email : text;
+  address : text;
+  phone : text;
+};
+type CompanyPayload = record {
+  name : text;
+  description : text;
+  email : text;
+  address : text;
+  phone : text;
+};
+type EducationHistory = record {
+  id : text;
+  gpa : float64;
+  institutionName : text;
+  userId : text;
+  createdAt : nat64;
+  description : text;
+  yearOfGraduation : nat64;
+  yearOfEntry : nat64;
+  educationLevel : text;
+  fieldOfStudy : text;
+};
+type EducationHistoryPayload = record {
+  gpa : float64;
+  institutionName : text;
+  description : text;
+  yearOfGraduation : nat64;
+  yearOfEntry : nat64;
+  educationLevel : text;
+  fieldOfStudy : text;
+};
+type Job = record {
   id : text;
   salary : text;
-  jobType : text;
-  name : text;
   createdAt : nat64;
   postStatus : bool;
   description : text;
   updatedAt : opt nat64;
-  company : text;
   requirements : text;
-  candidate : opt vec text;
+  position : text;
   location : text;
   postOwner : text;
+  companyId : text;
 };
-type JobPostPayload = record {
+type JobApplication = record {
+  id : text;
+  resume : text;
+  userId : text;
+  portofolio : opt text;
+  jobId : text;
+  coverLetter : text;
+  applicationDate : nat64;
+};
+type JobApplicationPayload = record {
+  resume : text;
+  portofolio : opt text;
+  jobId : text;
+  coverLetter : text;
+};
+type JobPayload = record {
   salary : text;
-  jobType : text;
-  name : text;
   description : text;
-  company : text;
   requirements : text;
+  position : text;
   location : text;
 };
-type _AzleResult = variant { Ok : JobPost; Err : text };
-type _AzleResult_1 = variant { Ok : vec JobPost; Err : text };
+type Users = record {
+  id : text;
+  fullName : text;
+  email : text;
+  phone : text;
+  registeredAt : nat64;
+};
+type UsersPayload = record { fullName : text; email : text; phone : text };
+type WorkHistory = record {
+  id : text;
+  salary : text;
+  yearStarted : nat64;
+  userId : text;
+  createdAt : nat64;
+  description : text;
+  yearEnded : nat64;
+  companyName : text;
+  position : text;
+};
+type WorkHistoryPayload = record {
+  salary : text;
+  yearStarted : nat64;
+  description : text;
+  yearEnded : nat64;
+  companyName : text;
+  position : text;
+};
+type _AzleResult = variant { Ok : EducationHistory; Err : text };
+type _AzleResult_1 = variant { Ok : Job; Err : text };
+type _AzleResult_2 = variant { Ok : WorkHistory; Err : text };
+type _AzleResult_3 = variant { Ok : JobApplication; Err : text };
+type _AzleResult_4 = variant { Ok : Company; Err : text };
+type _AzleResult_5 = variant { Ok : vec EducationHistory; Err : text };
+type _AzleResult_6 = variant { Ok : vec Job; Err : text };
+type _AzleResult_7 = variant { Ok : vec WorkHistory; Err : text };
+type _AzleResult_8 = variant { Ok : Users; Err : text };
 service : () -> {
-  closePost : (text) -> (_AzleResult);
-  createPost : (JobPostPayload) -> (_AzleResult);
-  getPostById : (text) -> (_AzleResult) query;
-  getPostList : () -> (_AzleResult_1) query;
-  updatePost : (text, JobPostPayload) -> (_AzleResult);
+  addEducationHistory : (EducationHistoryPayload) -> (_AzleResult);
+  addJobPost : (JobPayload) -> (_AzleResult_1);
+  addWorkHistory : (WorkHistoryPayload) -> (_AzleResult_2);
+  applyJobPost : (JobApplicationPayload) -> (_AzleResult_3);
+  closeJobPost : (text) -> (_AzleResult_1);
+  companyRegister : (CompanyPayload) -> (_AzleResult_4);
+  getEducationHistory : () -> (_AzleResult_5) query;
+  getJobPostList : () -> (_AzleResult_6) query;
+  getJobPostListByCompany : (text) -> (_AzleResult_6) query;
+  getWorkHistory : () -> (_AzleResult_7) query;
+  removeCompany : (text) -> (_AzleResult_4);
+  removeEducationHistory : (text) -> (_AzleResult);
+  removeJobPost : (text) -> (_AzleResult_1);
+  removeWorkHistory : (text) -> (_AzleResult_2);
+  updateCompany : (text, CompanyPayload) -> (_AzleResult_4);
+  updateEducationHistory : (text, EducationHistoryPayload) -> (_AzleResult);
+  updateJobPost : (text, JobPayload) -> (_AzleResult_1);
+  updateWorkHistory : (text, WorkHistoryPayload) -> (_AzleResult_2);
+  userRegister : (UsersPayload) -> (_AzleResult_8);
 }
